@@ -17,5 +17,28 @@ export default (appInfo: EggAppInfo) => {
     replaceEggLogger: true,
   };
 
+  // config.validate = {
+  //   allowUnknown: true,
+  // };
+
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
+
+  // 数据库配置
+  config.orm = {
+    type: 'mysql',
+    host: process.env.MYSQL_HOST || '127.0.0.1',
+    port: process.env.MYSQL_HOST || 3306,
+    username: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || '1013834609',
+    database: process.env.MYSQL_DATABASE || 'egg',
+    synchronize: true,
+    logging: false,
+    timezone: '+08:00',
+  };
+
   return config;
 };
