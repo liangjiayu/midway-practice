@@ -1,8 +1,14 @@
 import { Rule, RuleType } from '@midwayjs/decorator';
 
 export class QueryDTO {
-  @Rule(RuleType.number().min(1).max(1000).default(10).optional())
+  @Rule(RuleType.number().min(1).max(200).default(10).optional())
+  pageSize?: number;
+
+  @Rule(RuleType.number().default(1).optional())
   pageNum?: number;
+
+  @Rule(RuleType.string())
+  keyword?: number;
 }
 
 export class CreateDTO {

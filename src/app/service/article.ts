@@ -1,11 +1,11 @@
 import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { Context } from 'egg';
 import * as assert from 'assert';
 
 import { Article } from '../model/article';
-import { CreateDTO, UpdateDTO } from '../dto/article';
+import { CreateDTO, QueryDTO, UpdateDTO } from '../dto/article';
 
 @Provide()
 export class ArticleService {
@@ -38,8 +38,26 @@ export class ArticleService {
     return await this.articleModel.save(record);
   }
 
-  async queryArticle(query) {
-    const list = await this.articleModel.find();
-    return list;
+  async queryArticle(query: QueryDTO) {
+    const { pageNum, pageSize, ...filter } = query;
+    const where: any = {};
+
+    // // 模糊匹配
+    if (filter.keyword) {
+      where.keyword = Like(`${filter.keyword}%`);
+    }
+
+    const [list, total] = await this.articleModel.findAndCount({
+      where,
+      take: pageSize,
+      skip: pageSize * (pageNum - 1),
+    });
+
+    return {
+      list,
+      total,
+      pageNum,
+      pageSize,
+    };
   }
 }

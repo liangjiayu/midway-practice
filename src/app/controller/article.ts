@@ -51,6 +51,6 @@ export class ArticleController {
   @Validate()
   async query(@Query(ALL) query: QueryDTO) {
     const result = await this.articleService.queryArticle(query);
-    return result;
+    this.ctx.helper.success(result);
   }
 }

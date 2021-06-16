@@ -21,11 +21,11 @@ export default (appInfo: EggAppInfo) => {
   //   allowUnknown: true,
   // };
 
-  config.security = {
-    csrf: {
-      enable: false,
-    },
-  };
+  // config.security = {
+  //   csrf: {
+  //     enable: false,
+  //   },
+  // };
 
   config.middleware = ['errorHandler'];
 
@@ -34,12 +34,11 @@ export default (appInfo: EggAppInfo) => {
     type: 'mysql',
     host: process.env.MYSQL_HOST || '127.0.0.1',
     port: process.env.MYSQL_HOST || 3306,
-    username: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || '1013834609',
-    database: process.env.MYSQL_DATABASE || 'egg',
-    synchronize: true,
-    logging: false,
-    timezone: '+08:00',
+    username: process.env.MYSQL_USER || '',
+    password: process.env.MYSQL_PASSWORD || '',
+    database: process.env.MYSQL_DATABASE || '',
+    synchronize: false,
+    logging: true,
   };
 
   return config;
