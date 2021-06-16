@@ -22,14 +22,14 @@ export class ArticleController {
   @Inject()
   ctx: Context;
 
-  @Inject()
+  @Inject('articleService')
   articleService: ArticleService;
 
   @Post('/create')
   @Validate()
   async create(@Body(ALL) params: CreateDTO) {
     const result = await this.articleService.createArticle(params);
-    return result;
+    this.ctx.helper.success(result);
   }
 
   @Del('/remove')

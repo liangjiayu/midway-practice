@@ -2,6 +2,7 @@ import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Repository } from 'typeorm';
 import { Context } from 'egg';
+import * as assert from 'assert';
 
 import { Article } from '../model/article';
 import { CreateDTO, UpdateDTO } from '../dto/article';
@@ -23,16 +24,17 @@ export class ArticleService {
 
   async removeArticleById(id: number) {
     const record = await this.articleModel.findOne(id);
+    assert.ok(record, this.ctx.helper.error('暂无文章'));
+
     return await this.articleModel.remove(record);
   }
 
   async updateArticle(params: UpdateDTO) {
     const { id, ...column } = params;
-
     const record = await this.articleModel.findOne(id);
+    assert.ok(record, this.ctx.helper.error('暂无文章'));
 
     this.articleModel.merge(record, column);
-
     return await this.articleModel.save(record);
   }
 

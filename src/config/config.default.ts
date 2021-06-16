@@ -27,6 +27,8 @@ export default (appInfo: EggAppInfo) => {
     },
   };
 
+  config.middleware = ['errorHandler'];
+
   // 数据库配置
   config.orm = {
     type: 'mysql',

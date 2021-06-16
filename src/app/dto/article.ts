@@ -25,12 +25,12 @@ export class UpdateDTO {
   @Rule(RuleType.number().required())
   id: number;
 
-  @Rule(RuleType.string().optional())
+  @Rule(RuleType.string())
   title?: string;
 
-  @Rule(RuleType.string().optional())
+  @Rule(RuleType.string())
   keyword?: string;
 
-  @Rule(RuleType.string().optional())
+  @Rule(RuleType.string())
   content?: string;
 }
