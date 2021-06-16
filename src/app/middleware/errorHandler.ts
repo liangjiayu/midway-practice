@@ -1,6 +1,7 @@
 import { Provide } from '@midwayjs/decorator';
 import { IWebMiddleware, IMidwayWebNext } from '@midwayjs/web';
 import { Context } from 'egg';
+import { BASE_ERROR, VALIDATE_ERROR } from '../utils/state-code';
 
 @Provide()
 export class ErrorHandler implements IWebMiddleware {
@@ -26,11 +27,11 @@ export class ErrorHandler implements IWebMiddleware {
         //     : err.message;
 
         ctx.body = {
-          code: err.code || 50000,
+          code: err.code || BASE_ERROR.code,
           message: err.message,
         };
         if (status === 422) {
-          ctx.body.code = 50001;
+          ctx.body.code = VALIDATE_ERROR.code;
           ctx.body.details = err.details;
         }
         ctx.status = status;

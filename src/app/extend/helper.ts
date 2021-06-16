@@ -1,9 +1,10 @@
 import { IHelper } from 'egg';
+import { BASE_ERROR, SUCCESS_CODE } from '../utils/state-code';
 
 class BaseError extends Error {
   code: number;
   details: any;
-  constructor(message: string, code = 50000, details = null) {
+  constructor(message: string, code = BASE_ERROR.code, details = null) {
     super(message);
     this.code = code;
     this.details = details;
@@ -11,7 +12,12 @@ class BaseError extends Error {
 }
 
 export default {
-  success(this: IHelper, data = null, message = '请求成功', code = 20000) {
+  success(
+    this: IHelper,
+    data = null,
+    message = SUCCESS_CODE.message,
+    code = SUCCESS_CODE.code
+  ) {
     this.ctx.status = 200;
     this.ctx.body = {
       code,
