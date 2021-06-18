@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Modal, Select } from 'antd';
 
 import { addUser, updateUser } from '@/api/user';
-import { getRoleAll } from '@/api/role';
-import { checkOnly } from '@/api/base';
 
 type UserModalProps = {
   onCancel: () => void;
@@ -14,31 +12,24 @@ type UserModalProps = {
 
 const UserModal: React.FC<UserModalProps> = (props) => {
   const [form] = Form.useForm();
-  const [roleList, setRoleList] = useState([]);
 
   // 回显表单的字段
   useEffect(() => {
-    if (props.visible) {
+    if (!form) {
+      return;
+    }
+    if (props.visible && props.current) {
       form.setFieldsValue(props.current);
+    } else {
+      form.resetFields();
     }
   }, [props.visible]);
 
-  useEffect(() => {
-    getRoleAll({}).then((res) => {
-      const { data } = res;
-      const list = data.map((item) => {
-        return {
-          label: item.roleName,
-          value: item.roleId,
-        };
-      });
-      setRoleList(list);
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   const onFinish = (values: any) => {
-    if (props.current?.userId) {
-      updateUser({ ...values, userId: props.current.userId }).then(() => {
+    if (props?.current?.id) {
+      updateUser({ ...values, id: props.current.id }).then(() => {
         props.onSuccess();
       });
     } else {
@@ -58,14 +49,12 @@ const UserModal: React.FC<UserModalProps> = (props) => {
         }}
         onCancel={props.onCancel}
         width={640}
-        destroyOnClose
       >
         <Form
           form={form}
           labelCol={{ span: 5 }}
           name="basic"
           onFinish={onFinish}
-          preserve={false}
           initialValues={{}}
         >
           <Form.Item
@@ -73,28 +62,28 @@ const UserModal: React.FC<UserModalProps> = (props) => {
             name="username"
             rules={[
               { required: true },
-              {
-                validator: async (rule, value) => {
-                  if (props.current) {
-                    return;
-                  }
-                  if (!value) {
-                    return;
-                  }
-                  await checkOnly({
-                    tableName: 'User',
-                    fieldName: 'username',
-                    fieldVal: value,
-                  }).then((res) => {
-                    if (res.code !== 2000) {
-                      throw new Error('用户名称已重复');
-                    }
-                  });
-                },
-              },
+              // {
+              //   validator: async (rule, value) => {
+              //     if (props.current) {
+              //       return;
+              //     }
+              //     if (!value) {
+              //       return;
+              //     }
+              //     await checkOnly({
+              //       tableName: 'User',
+              //       fieldName: 'username',
+              //       fieldVal: value,
+              //     }).then((res) => {
+              //       if (res.code !== 2000) {
+              //         throw new Error('用户名称已重复');
+              //       }
+              //     });
+              //   },
+              // },
             ]}
           >
-            <Input readOnly={props.current} />
+            <Input />
           </Form.Item>
 
           {!props.current && (
@@ -112,10 +101,6 @@ const UserModal: React.FC<UserModalProps> = (props) => {
               <Input.Password autoComplete="new-password" />
             </Form.Item>
           )}
-
-          <Form.Item label="角色" name="roleId" rules={[{ required: true }]}>
-            <Select options={roleList}></Select>
-          </Form.Item>
         </Form>
       </Modal>
     </>

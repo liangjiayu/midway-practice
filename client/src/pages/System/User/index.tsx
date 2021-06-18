@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Table, Space, Button, Popconfirm } from 'antd';
+import type { TableColumnProps } from 'antd';
 
 import UserModal from './components/UserModal';
 import { getUserList, delUser } from '@/api/user';
@@ -18,33 +19,21 @@ const UserView = () => {
   // List
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [pages, setPages] = useState({ current: 1, pageSize: 10, total: 0 });
 
   const fetchList = () => {
     setLoading(true);
     getUserList({ ...listParams }).then((res) => {
       setLoading(false);
       const { data } = res;
-      setList(data.rows);
-      setPages({
-        current: data.current,
-        pageSize: data.size,
-        total: data.total,
-      });
+      setList(data);
     });
-  };
-
-  const onChangeTable = (pagination: any) => {
-    listParams.pageSize = pagination.pageSize;
-    listParams.pageNum = pagination.current;
-    fetchList();
   };
 
   useEffect(() => {
     fetchList();
   }, []);
 
-  const columns = [
+  const columns: TableColumnProps<any>[] = [
     {
       title: '用户名称',
       dataIndex: 'username',
@@ -77,7 +66,7 @@ const UserView = () => {
           <Popconfirm
             title="确定删除吗?"
             onConfirm={() => {
-              delUser({ userId: record.userId }).then(() => {
+              delUser({ id: record.id }).then(() => {
                 fetchList();
               });
             }}
@@ -116,14 +105,7 @@ const UserView = () => {
         current={currentRow}
       ></UserModal>
 
-      <Table
-        columns={columns}
-        dataSource={list}
-        rowKey="userId"
-        pagination={pages}
-        loading={loading}
-        onChange={onChangeTable}
-      />
+      <Table columns={columns} dataSource={list} rowKey="id" pagination={false} loading={loading} />
     </Card>
   );
 };

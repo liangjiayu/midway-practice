@@ -26,17 +26,17 @@ export async function getInitialState(): Promise<{
 }> {
   // 如果是登录页面，不执行
   if (history.location.pathname !== '/login') {
-    try {
-      const { data: userInfo } = await getInfoByToken({});
-      return {
-        token: getStore('TOKEN'),
-        userInfo: userInfo.user,
-        roleInfo: userInfo.role,
-        settings: defaultSettings,
-      };
-    } catch (error) {
-      history.push('/login');
-    }
+    // try {
+    //   const { data: userInfo } = await getInfoByToken({});
+    //   return {
+    //     token: getStore('TOKEN'),
+    //     userInfo: userInfo.user,
+    //     roleInfo: userInfo.role,
+    //     settings: defaultSettings,
+    //   };
+    // } catch (error) {
+    //   history.push('/login');
+    // }
   }
 
   return {
@@ -53,11 +53,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     disableContentMargin: false,
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.token && location.pathname !== '/login') {
-        history.push('/login');
-      }
+      // const { location } = history;
+      // // 如果没有登录，重定向到 login
+      // if (!initialState?.token && location.pathname !== '/login') {
+      //   history.push('/login');
+      // }
     },
     menuHeaderRender: undefined,
     // 自定义 403 页面

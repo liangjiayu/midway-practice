@@ -11,17 +11,17 @@ export async function getInfoByToken(params) {
 }
 
 export async function getUserList(params) {
-  return request('/api/user/list', { method: 'POST', data: params });
+  return request('/api/AdminUser/query', { method: 'GET', data: params });
 }
 
 export async function addUser(params) {
-  return request('/api/user/create', { method: 'POST', data: params });
+  return request('/api/AdminUser/create', { method: 'POST', data: params });
 }
 
 export async function delUser(params) {
-  return request('/api/user/del', { method: 'POST', data: params });
+  return request('/api/AdminUser/remove', { method: 'DELETE', data: params });
 }
 
 export async function updateUser(params) {
-  return request('/api/user/update', { method: 'POST', data: params });
+  return request('/api/AdminUser/update', { method: 'PUT', data: params });
 }
