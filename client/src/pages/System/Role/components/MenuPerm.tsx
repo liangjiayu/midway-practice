@@ -29,45 +29,53 @@ const transferMenu = (data: any[] = []) => {
 
 const treeData = transferMenu(routes);
 
-const MenuPerm = (props) => {
+type MenuPermProps = {
+  visible: boolean;
+  current: any;
+  onSuccess: (keys: any[]) => void;
+  onCancel: () => void;
+};
+
+const MenuPerm: React.FC<MenuPermProps> = (props) => {
+  const { visible, current, onSuccess, onCancel } = props;
   const [checkedKeys, setCheckedKeys] = useState([]);
 
-  const onCheck = (keys) => {
-    setCheckedKeys(keys.checked);
+  const onCheck = (checkedKeysValue) => {
+    setCheckedKeys(checkedKeysValue.checked);
   };
 
   useEffect(() => {
-    if (props.visible) {
-      if (props.current && props.current.menuPerm) {
-        const menuPerm = props.current.menuPerm.split(',');
+    if (visible) {
+      if (current?.menuPerm) {
+        const menuPerm = JSON.parse(current.menuPerm);
         setCheckedKeys(menuPerm);
       } else {
         setCheckedKeys([]);
       }
     }
-  }, [props.visible]);
+  }, [visible]);
 
   return (
     <>
       <Drawer
         title="菜单授权"
         placement="right"
-        onClose={props.onCancel}
-        visible={props.visible}
+        onClose={onCancel}
+        visible={visible}
         width="600"
-        destroyOnClose
+        // destroyOnClose
         footer={
           <div
             style={{
               textAlign: 'right',
             }}
           >
-            <Button onClick={props.onCancel} style={{ marginRight: 8 }}>
+            <Button onClick={onCancel} style={{ marginRight: 8 }}>
               取消
             </Button>
             <Button
               onClick={() => {
-                props.onSuccess(checkedKeys);
+                onSuccess(checkedKeys);
               }}
               type="primary"
             >

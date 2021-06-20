@@ -37,14 +37,14 @@ export class AdminRoleController {
   async remove(@Body(ALL) params: RemoveDTO) {
     const { id } = params;
     const result = await this.adminRoleService.removeRoleById(id);
-    return result;
+    this.ctx.helper.success(result);
   }
 
   @Put('/update')
   @Validate()
   async update(@Body(ALL) params: UpdateDTO) {
     const result = await this.adminRoleService.updateRole(params);
-    return result;
+    this.ctx.helper.success(result);
   }
 
   @Get('/query')

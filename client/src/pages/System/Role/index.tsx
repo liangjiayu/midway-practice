@@ -5,7 +5,7 @@ import RoleModal from './components/RoleModal';
 import MenuPerm from './components/MenuPerm';
 import ApiPerm from './components/ApiPerm';
 
-import { getRoleAll, updateRole, delRole } from '@/api/role';
+import { getRoleList, updateRole, delRole } from '@/api/role';
 
 const RoleView = () => {
   const [currentRow, setCurrentRow] = useState<any>();
@@ -23,7 +23,7 @@ const RoleView = () => {
   const [list, setList] = useState([]);
 
   const fetchList = () => {
-    getRoleAll({}).then((res) => {
+    getRoleList({}).then((res) => {
       const { data } = res;
       setList(data);
     });
@@ -81,7 +81,7 @@ const RoleView = () => {
           <Popconfirm
             title="确定删除吗?"
             onConfirm={() => {
-              delRole({ roleId: record.roleId }).then(() => {
+              delRole({ id: record.id }).then(() => {
                 fetchList();
               });
             }}
@@ -130,7 +130,7 @@ const RoleView = () => {
         }}
         onSuccess={(keys) => {
           setMenuPermVisible(false);
-          updateRole({ roleId: currentRow.roleId, menuPerm: keys.join() }).then(() => {
+          updateRole({ id: currentRow.id, menuPerm: JSON.stringify(keys) }).then(() => {
             fetchList();
           });
         }}
@@ -149,7 +149,7 @@ const RoleView = () => {
         current={currentRow}
       ></ApiPerm>
 
-      <Table columns={columns} dataSource={list} rowKey="roleId" />
+      <Table columns={columns} dataSource={list} rowKey="id" />
     </Card>
   );
 };

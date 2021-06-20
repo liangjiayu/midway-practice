@@ -16,14 +16,16 @@ const RoleModal: React.FC<RoleModalProps> = (props) => {
 
   // 回显表单的字段
   useEffect(() => {
-    if (props.visible) {
+    if (props.visible && props.current) {
       form.setFieldsValue(props.current);
+    } else {
+      form.resetFields();
     }
   }, [props.visible]);
 
   const onFinish = (values: any) => {
-    if (props.current?.roleId) {
-      updateRole({ ...values, roleId: props.current.roleId }).then(() => {
+    if (props.current?.id) {
+      updateRole({ ...values, id: props.current.id }).then(() => {
         props.onSuccess();
       });
     } else {
@@ -43,14 +45,12 @@ const RoleModal: React.FC<RoleModalProps> = (props) => {
         }}
         onCancel={props.onCancel}
         width={640}
-        destroyOnClose
       >
         <Form
           form={form}
           labelCol={{ span: 6 }}
           name="basic"
           onFinish={onFinish}
-          preserve={false}
           initialValues={{}}
         >
           <Form.Item
@@ -58,25 +58,25 @@ const RoleModal: React.FC<RoleModalProps> = (props) => {
             name="roleCode"
             rules={[
               { required: true },
-              {
-                validator: async (rule, value) => {
-                  if (props.current) {
-                    return;
-                  }
-                  if (!value) {
-                    return;
-                  }
-                  await checkOnly({
-                    tableName: 'Role',
-                    fieldName: 'roleCode',
-                    fieldVal: value,
-                  }).then((res) => {
-                    if (res.code !== 2000) {
-                      throw new Error('角色编码已重复');
-                    }
-                  });
-                },
-              },
+              // {
+              //   validator: async (rule, value) => {
+              //     if (props.current) {
+              //       return;
+              //     }
+              //     if (!value) {
+              //       return;
+              //     }
+              //     await checkOnly({
+              //       tableName: 'Role',
+              //       fieldName: 'roleCode',
+              //       fieldVal: value,
+              //     }).then((res) => {
+              //       if (res.code !== 2000) {
+              //         throw new Error('角色编码已重复');
+              //       }
+              //     });
+              //   },
+              // },
             ]}
           >
             <Input readOnly={props.current} />

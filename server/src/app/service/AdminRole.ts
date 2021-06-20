@@ -26,7 +26,8 @@ export class AdminRoleService {
     const record = await this.adminRoleModel.findOne(id);
     assert.ok(record, this.ctx.helper.error('暂无该角色'));
 
-    return await this.adminRoleModel.remove(record);
+    await this.adminRoleModel.remove(record);
+    return null;
   }
 
   async updateRole(params: UpdateDTO) {
@@ -35,7 +36,8 @@ export class AdminRoleService {
     assert.ok(record, this.ctx.helper.error('暂无该用户'));
 
     this.adminRoleModel.merge(record, column);
-    return await this.adminRoleModel.save(record);
+    await this.adminRoleModel.save(record);
+    return null;
   }
 
   async queryRole(query: QueryDTO) {
