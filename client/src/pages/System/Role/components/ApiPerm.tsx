@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Tree, message } from 'antd';
 
 import { updateRole } from '@/api/role';
-import ApiAuth from '../ApiAuth.json';
+import { getApiPerm } from '@/api/base';
 
 type ApiPermProps = {
   onCancel: () => void;
@@ -11,22 +11,44 @@ type ApiPermProps = {
   current: any;
 };
 
-const handleApiTree = (data) => {
-  const tree = data.map((item) => {
-    return {
-      title: item.name,
-      key: item.value,
-      children: item.children ? handleApiTree(item.children) : [],
-    };
-  });
-
-  return tree;
-};
-
-const apiTree = handleApiTree(ApiAuth);
-
 const ApiPerm: React.FC<ApiPermProps> = (props) => {
+  const { onCancel, onSuccess, visible, current } = props;
+  const [apiTreeData, setApiTreeData] = useState([]);
   const [checkedKeys, setCheckedKeys] = useState([]);
+
+  useEffect(() => {
+    getApiPerm({}).then((res) => {
+      const { data } = res;
+      if (!data) {
+        return;
+      }
+
+      const handleApiTree = (data) => {
+        const tree = data.map((item) => {
+          return {
+            title: item.name,
+            key: item.value,
+            children: item.children ? handleApiTree(item.children) : [],
+          };
+        });
+
+        return tree;
+      };
+      const apiTree = handleApiTree(data);
+      setApiTreeData(apiTree);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (visible) {
+      if (current?.apiPerm) {
+        const apiPerm = JSON.parse(current.apiPerm);
+        setCheckedKeys(apiPerm);
+      } else {
+        setCheckedKeys([]);
+      }
+    }
+  }, [visible]);
 
   const onCheck = (keys) => {
     setCheckedKeys(keys);
@@ -34,36 +56,25 @@ const ApiPerm: React.FC<ApiPermProps> = (props) => {
 
   const onSubmit = () => {
     updateRole({
-      roleId: props.current.roleId,
-      apiPerm: checkedKeys
-        .filter((i: string) => {
+      id: current.id,
+      apiPerm: JSON.stringify(
+        checkedKeys.filter((i: string) => {
           return i.includes(':');
-        })
-        .join(),
+        }),
+      ),
     }).then(() => {
       message.success('提交成功');
-      props.onSuccess();
+      onSuccess();
     });
   };
-
-  useEffect(() => {
-    if (props.visible) {
-      if (props.current && props.current.apiPerm) {
-        const apiPerm = props.current.apiPerm.split(',');
-        setCheckedKeys(apiPerm);
-      } else {
-        setCheckedKeys([]);
-      }
-    }
-  }, [props.visible]);
 
   return (
     <>
       <Modal
         title="API管理"
-        visible={props.visible}
+        visible={visible}
         onOk={onSubmit}
-        onCancel={props.onCancel}
+        onCancel={onCancel}
         width={640}
         destroyOnClose
       >
@@ -72,7 +83,7 @@ const ApiPerm: React.FC<ApiPermProps> = (props) => {
             checkable
             onCheck={onCheck}
             checkedKeys={checkedKeys}
-            treeData={apiTree}
+            treeData={apiTreeData}
             defaultExpandAll
           />
         </div>
