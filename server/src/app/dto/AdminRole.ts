@@ -1,6 +1,9 @@
 import { Rule, RuleType } from '@midwayjs/decorator';
 
-export class QueryDTO {}
+export class QueryDTO {
+  @Rule(RuleType.number())
+  permFlag?: number;
+}
 
 export class CreateDTO {
   @Rule(RuleType.string().required())

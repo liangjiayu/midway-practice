@@ -1,7 +1,7 @@
 import { request } from 'umi';
 
 export async function getRoleList(params) {
-  return request('/api/AdminRole/query', { method: 'GET', data: params });
+  return request('/api/AdminRole/query', { method: 'GET', params: params });
 }
 
 export async function addRole(params) {

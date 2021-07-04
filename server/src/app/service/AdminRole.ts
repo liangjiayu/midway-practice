@@ -41,6 +41,17 @@ export class AdminRoleService {
   }
 
   async queryRole(query: QueryDTO) {
-    return await this.adminRoleModel.find();
+    const { permFlag } = query;
+    const addSelect = [];
+
+    if (permFlag) {
+      addSelect.push('role.apiPerm', 'role.menuPerm');
+    }
+
+    return await this.adminRoleModel
+      .createQueryBuilder('role')
+      .select()
+      .addSelect(addSelect)
+      .getMany();
   }
 }

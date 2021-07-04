@@ -23,7 +23,7 @@ const RoleView = () => {
   const [list, setList] = useState([]);
 
   const fetchList = () => {
-    getRoleList({}).then((res) => {
+    getRoleList({ permFlag: 1 }).then((res) => {
       const { data } = res;
       setList(data);
     });
