@@ -8,7 +8,7 @@ export const orm: ConnectionOptions = {
   username: 'root',
   password: '1013834609',
   database: 'egg',
-  synchronize: false,
+  synchronize: true,
   logging: false,
 };
 

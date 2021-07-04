@@ -1,5 +1,6 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import { AdminUser } from './admin_user';
 @EntityModel({
   name: 'admin_role',
 })
@@ -23,6 +24,7 @@ export class AdminRole {
     type: 'varchar',
     comment: '菜单权限',
     nullable: true,
+    select: false,
   })
   menuPerm: string;
 
@@ -30,6 +32,10 @@ export class AdminRole {
     type: 'varchar',
     comment: '接口权限',
     nullable: true,
+    select: false,
   })
   apiPerm: string;
+
+  @OneToMany(type => AdminUser, user => user.role)
+  users: AdminUser[];
 }

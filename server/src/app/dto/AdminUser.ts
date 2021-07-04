@@ -8,6 +8,9 @@ export class CreateDTO {
 
   @Rule(RuleType.string().required())
   password: string;
+
+  @Rule(RuleType.number().required())
+  roleId: number;
 }
 
 export class RemoveDTO {
@@ -24,4 +27,7 @@ export class UpdateDTO {
 
   @Rule(RuleType.string())
   password?: string;
+
+  @Rule(RuleType.number().required())
+  roleId: number;
 }

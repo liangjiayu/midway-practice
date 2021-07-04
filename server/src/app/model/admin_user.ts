@@ -1,5 +1,6 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { AdminRole } from './admin_role';
 
 @EntityModel({
   name: 'admin_user',
@@ -16,7 +17,15 @@ export class AdminUser {
 
   @Column({
     type: 'varchar',
+    select: false,
     comment: '密码',
   })
   password: string;
+
+  @ManyToOne(type => AdminRole, role => role.users)
+  @JoinColumn({
+    name: 'role_id',
+    referencedColumnName: 'id',
+  })
+  role: AdminRole;
 }
