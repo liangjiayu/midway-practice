@@ -29,4 +29,19 @@ export default {
   error(this: IHelper, message: string, code?: number, details?: any) {
     return new BaseError(message, code, details);
   },
+
+  resultError(
+    this: IHelper,
+    message = BASE_ERROR.message,
+    code = BASE_ERROR.code,
+    status = 500,
+    data = null
+  ) {
+    this.ctx.status = status;
+    this.ctx.body = {
+      code,
+      message,
+      data,
+    };
+  },
 };

@@ -13,8 +13,15 @@ import {
 } from '@midwayjs/decorator';
 import { Context } from 'egg';
 
-import { CreateDTO, QueryDTO, RemoveDTO, UpdateDTO } from '../dto/AdminUser';
+import {
+  CreateDTO,
+  QueryDTO,
+  RemoveDTO,
+  UpdateDTO,
+  LoginDTO,
+} from '../dto/AdminUser';
 import { AdminUserService } from '../service/AdminUser';
+import apiAuth from '../middleware/apiAuth';
 
 @Provide()
 @Controller('/api/AdminUser')
@@ -47,10 +54,24 @@ export class AdminUserController {
     return result;
   }
 
-  @Get('/query')
+  @Get('/query', { middleware: [apiAuth(['role:del']) as any] })
   @Validate()
   async query(@Query(ALL) query: QueryDTO) {
     const result = await this.adminUserService.queryUser(query);
+    this.ctx.helper.success(result);
+  }
+
+  @Post('/login')
+  @Validate()
+  async login(@Body(ALL) params: LoginDTO) {
+    const result = await this.adminUserService.signIn(params);
+    this.ctx.helper.success(result);
+  }
+
+  @Get('/getUserInfo')
+  @Validate()
+  async getUserInfo() {
+    const result = await this.adminUserService.getUserInfo();
     this.ctx.helper.success(result);
   }
 }

@@ -2,7 +2,7 @@ import { request } from 'umi';
 
 // 用户登录
 export async function userLogin(params) {
-  return request('/api/user/login', { method: 'POST', data: params });
+  return request('/api/AdminUser/login', { method: 'POST', data: params });
 }
 
 // 获取用户信息

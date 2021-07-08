@@ -27,7 +27,15 @@ export default (appInfo: EggAppInfo) => {
   //   },
   // };
 
-  config.middleware = ['errorHandler'];
+  // 中间价
+  config.middleware = ['jwtAuth', 'errorHandler'];
+
+  // jwt
+  config.jwt = {
+    secretKey: 'secretKey',
+    expiresIn: 60 * 60,
+    whiteList: ['/api/AdminUser/login'],
+  };
 
   // 数据库配置
   config.orm = {

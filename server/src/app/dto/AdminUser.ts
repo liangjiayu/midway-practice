@@ -31,3 +31,11 @@ export class UpdateDTO {
   @Rule(RuleType.number().required())
   roleId: number;
 }
+
+export class LoginDTO {
+  @Rule(RuleType.string().required())
+  username: string;
+
+  @Rule(RuleType.string().required())
+  password: string;
+}

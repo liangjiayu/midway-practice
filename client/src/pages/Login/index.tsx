@@ -13,13 +13,13 @@ const LoginView = () => {
     const { data: tokenData } = await userLogin({ ...values });
     setStore('TOKEN', tokenData.token);
 
-    const { data: userData } = await getInfoByToken({});
-    setInitialState({
-      ...initialState,
-      token: tokenData.token,
-      userInfo: userData.user,
-      roleInfo: userData.role,
-    });
+    // const { data: userData } = await getInfoByToken({});
+    // setInitialState({
+    //   ...initialState,
+    //   token: tokenData.token,
+    //   userInfo: userData.user,
+    //   roleInfo: userData.role,
+    // });
 
     setTimeout(() => {
       history.push('/');

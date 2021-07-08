@@ -14,3 +14,8 @@ export const VALIDATE_ERROR = {
   code: 50001,
   message: 'validate_error',
 };
+
+export const TOKEN_ERROR = {
+  code: 50002,
+  message: 'token_error',
+};

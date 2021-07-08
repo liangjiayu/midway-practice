@@ -54,4 +54,17 @@ export class AdminRoleService {
       .addSelect(addSelect)
       .getMany();
   }
+
+  async getRoleById(id: number) {
+    console.log(this);
+
+    console.log(this.adminRoleModel);
+
+    // return await this.adminRoleModel
+    //   .createQueryBuilder('role')
+    //   .select()
+    //   // .addSelect(['role.apiPerm', 'role.menuPerm'])
+    //   .where({ id })
+    //   .getOne();
+  }
 }

@@ -3,10 +3,11 @@ import { InjectEntityModel } from '@midwayjs/orm';
 import { Repository, Like } from 'typeorm';
 import { Context } from 'egg';
 import * as assert from 'assert';
+import * as jwt from 'jsonwebtoken';
 
 import { AdminUser } from '../model/admin_user';
 import { AdminRole } from '../model/admin_role';
-import { CreateDTO, QueryDTO, UpdateDTO } from '../dto/AdminUser';
+import { CreateDTO, QueryDTO, UpdateDTO, LoginDTO } from '../dto/AdminUser';
 
 @Provide()
 export class AdminUserService {
@@ -53,5 +54,43 @@ export class AdminUserService {
       .select()
       .leftJoinAndSelect('user.role', 'role')
       .getMany();
+  }
+
+  async signIn(params: LoginDTO) {
+    const { username, password } = params;
+    const secretKey = this.ctx.app.config.jwt.secretKey;
+
+    const user = await this.adminUserModel
+      .createQueryBuilder('user')
+      .where({ username })
+      .leftJoinAndSelect('user.role', 'role')
+      .addSelect(['user.password'])
+      .getOne();
+
+    assert.ok(user, this.ctx.helper.error('用户不存在'));
+    assert.ok(user.password === password, this.ctx.helper.error('密码不正确'));
+
+    const token = jwt.sign(
+      { userId: user.id, roleId: user.role.id },
+      secretKey,
+      {
+        expiresIn: 12 * 60 * 60,
+      }
+    );
+
+    return { token };
+  }
+
+  async getUserInfo() {
+    const { userId } = this.ctx.tokenInfo;
+
+    const user = this.adminUserModel
+      .createQueryBuilder('uesr')
+      .where({ id: userId })
+      .leftJoinAndSelect('uesr.role', 'role')
+      .addSelect(['role.menuPerm', 'role.apiPerm'])
+      .getOne();
+
+    return user;
   }
 }
