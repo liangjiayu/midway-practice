@@ -1,7 +1,7 @@
 import { IMidwayWebNext } from '@midwayjs/web';
 import { Context } from 'egg';
 import * as jwt from 'jsonwebtoken';
-import { TOKEN_ERROR } from '../utils/state-code';
+import { TOKEN_ERROR } from '../utils/stateCode';
 
 export default () => {
   return async (ctx: Context, next: IMidwayWebNext): Promise<void> => {

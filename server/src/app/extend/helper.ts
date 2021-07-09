@@ -1,5 +1,5 @@
 import { IHelper } from 'egg';
-import { BASE_ERROR, SUCCESS_CODE } from '../utils/state-code';
+import { BASE_ERROR, SUCCESS_CODE } from '../utils/stateCode';
 
 class BaseError extends Error {
   code: number;

@@ -1,7 +1,7 @@
 import { Provide } from '@midwayjs/decorator';
 import { IWebMiddleware, IMidwayWebNext } from '@midwayjs/web';
 import { Context } from 'egg';
-import { BASE_ERROR, VALIDATE_ERROR } from '../utils/state-code';
+import { BASE_ERROR, VALIDATE_ERROR } from '../utils/stateCode';
 
 @Provide()
 export class ErrorHandler implements IWebMiddleware {
