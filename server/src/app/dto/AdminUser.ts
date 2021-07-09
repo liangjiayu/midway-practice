@@ -28,8 +28,8 @@ export class UpdateDTO {
   @Rule(RuleType.string())
   password?: string;
 
-  @Rule(RuleType.number().required())
-  roleId: number;
+  @Rule(RuleType.number())
+  roleId?: number;
 }
 
 export class LoginDTO {

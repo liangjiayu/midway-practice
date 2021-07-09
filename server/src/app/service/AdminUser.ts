@@ -36,12 +36,15 @@ export class AdminUserService {
   }
 
   async updateUser(params: UpdateDTO) {
-    const { id, ...column } = params;
+    const { id, roleId, ...column } = params;
     const role = new AdminRole();
     const user = await this.adminUserModel.findOne(id);
 
-    role.id = params.roleId;
-    user.role = role;
+    if (roleId) {
+      role.id = roleId;
+      user.role = role;
+    }
+
     assert.ok(user, this.ctx.helper.error('暂无该用户'));
     this.adminUserModel.merge(user, column);
 
@@ -74,7 +77,7 @@ export class AdminUserService {
       { userId: user.id, roleId: user.role.id },
       secretKey,
       {
-        expiresIn: 12 * 60 * 60,
+        expiresIn: 12 * 60 * 60 * 10,
       }
     );
 

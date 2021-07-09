@@ -4,7 +4,7 @@ import { BASE_ERROR, SUCCESS_CODE } from '../utils/stateCode';
 class BaseError extends Error {
   code: number;
   details: any;
-  constructor(message: string, code = BASE_ERROR.code, details = null) {
+  constructor(message: string, code: number, details: any) {
     super(message);
     this.code = code;
     this.details = details;
@@ -26,7 +26,12 @@ export default {
     };
   },
 
-  error(this: IHelper, message: string, code?: number, details?: any) {
+  error(
+    this: IHelper,
+    message: string,
+    code = BASE_ERROR.code,
+    details = null
+  ) {
     return new BaseError(message, code, details);
   },
 

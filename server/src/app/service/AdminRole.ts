@@ -34,7 +34,7 @@ export class AdminRoleService {
     const { id, ...column } = params;
     const record = await this.adminRoleModel.findOne(id);
 
-    assert.ok(record, this.ctx.helper.error('暂无该用户'));
+    assert.ok(record, this.ctx.helper.error('暂无该角色'));
     this.adminRoleModel.merge(record, column);
     await this.adminRoleModel.save(record);
     return null;
@@ -53,18 +53,5 @@ export class AdminRoleService {
       .select()
       .addSelect(addSelect)
       .getMany();
-  }
-
-  async getRoleById(id: number) {
-    console.log(this);
-
-    console.log(this.adminRoleModel);
-
-    // return await this.adminRoleModel
-    //   .createQueryBuilder('role')
-    //   .select()
-    //   // .addSelect(['role.apiPerm', 'role.menuPerm'])
-    //   .where({ id })
-    //   .getOne();
   }
 }

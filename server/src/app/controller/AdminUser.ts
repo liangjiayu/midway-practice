@@ -33,7 +33,7 @@ export class AdminUserController {
   adminUserService: AdminUserService;
 
   @Post('/create', {
-    middleware: [apiAuth(['AdminUser:create1']) as any],
+    // middleware: [apiAuth(['AdminUser:create1']) as any],
   })
   @Validate()
   async create(@Body(ALL) params: CreateDTO) {
@@ -56,7 +56,7 @@ export class AdminUserController {
     return result;
   }
 
-  @Get('/query', { middleware: [apiAuth(['role:del']) as any] })
+  @Get('/query')
   @Validate()
   async query(@Query(ALL) query: QueryDTO) {
     const result = await this.adminUserService.queryUser(query);
