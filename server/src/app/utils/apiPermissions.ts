@@ -1,19 +1,19 @@
 export default [
   {
     name: '用户管理',
-    value: 'user',
+    value: 'AdminUser',
     children: [
       {
         name: '新增用户',
-        value: 'user:create',
+        value: 'AdminUser:create',
       },
       {
         name: '编辑用户',
-        value: 'user:update',
+        value: 'AdminUser:update',
       },
       {
         name: '删除用户',
-        value: 'user:del',
+        value: 'AdminUser:remove',
       },
     ],
   },

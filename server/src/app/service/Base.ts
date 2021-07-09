@@ -3,7 +3,7 @@ import { Context } from 'egg';
 import * as assert from 'assert';
 
 import {} from '../dto/Base';
-import ApiPerm from '../utils/ApiPerm';
+import apiPermissions from '../utils/apiPermissions';
 
 @Provide()
 export class BaseService {
@@ -11,6 +11,6 @@ export class BaseService {
   ctx: Context;
 
   async getApiPerm() {
-    return ApiPerm;
+    return apiPermissions;
   }
 }

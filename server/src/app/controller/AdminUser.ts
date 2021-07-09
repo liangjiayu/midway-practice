@@ -32,7 +32,9 @@ export class AdminUserController {
   @Inject('adminUserService')
   adminUserService: AdminUserService;
 
-  @Post('/create')
+  @Post('/create', {
+    middleware: [apiAuth(['AdminUser:create1']) as any],
+  })
   @Validate()
   async create(@Body(ALL) params: CreateDTO) {
     const result = await this.adminUserService.createUser(params);
