@@ -7,7 +7,7 @@ export const orm: ConnectionOptions = {
   port: 3306,
   username: 'root',
   password: '1013834609',
-  database: 'egg',
+  database: 'midway',
   synchronize: true,
   logging: false,
 };
