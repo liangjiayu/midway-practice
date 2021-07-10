@@ -13,8 +13,8 @@ import {
 } from '@midwayjs/decorator';
 import { Context } from 'egg';
 
-import { CreateDTO, QueryDTO, RemoveDTO, UpdateDTO } from '../dto/article';
-import { ArticleService } from '../service/Article';
+import { CreateDTO, QueryDTO, RemoveDTO, UpdateDTO } from '../dto/Article1';
+import { ArticleService } from '../service/Article1';
 
 @Provide()
 @Controller('/api/article')
