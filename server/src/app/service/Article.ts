@@ -5,7 +5,7 @@ import { Context } from 'egg';
 import * as assert from 'assert';
 
 import { Article } from '../model/article';
-import { CreateDTO, QueryDTO, UpdateDTO } from '../dto/Article1';
+import { CreateDTO, QueryDTO, UpdateDTO } from '../dto/Article';
 
 @Provide()
 export class ArticleService {
