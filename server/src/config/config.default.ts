@@ -33,7 +33,7 @@ export default (appInfo: EggAppInfo) => {
   // jwt
   config.jwt = {
     secretKey: 'secretKey',
-    expiresIn: 60 * 60,
+    expiresIn: 24 * 60 * 60, // 1day
     whiteList: ['/api/AdminUser/login'],
   };
 

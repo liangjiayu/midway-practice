@@ -19,19 +19,19 @@ export default [
   },
   {
     name: '角色管理',
-    value: 'role',
+    value: 'AdminRole',
     children: [
       {
         name: '新增角色',
-        value: 'role:create',
+        value: 'AdminRole:create',
       },
       {
         name: '编辑角色',
-        value: 'role:update',
+        value: 'AdminRole:update',
       },
       {
         name: '删除角色',
-        value: 'role:del',
+        value: 'AdminRole:remove',
       },
     ],
   },

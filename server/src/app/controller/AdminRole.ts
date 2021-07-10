@@ -15,6 +15,7 @@ import { Context } from 'egg';
 
 import { CreateDTO, QueryDTO, RemoveDTO, UpdateDTO } from '../dto/AdminRole';
 import { AdminRoleService } from '../service/AdminRole';
+import apiAuth from '../middleware/apiAuth';
 
 @Provide()
 @Controller('/api/AdminRole')
@@ -32,7 +33,7 @@ export class AdminRoleController {
     this.ctx.helper.success(result);
   }
 
-  @Del('/remove')
+  @Del('/remove', { middleware: [apiAuth(['AdminRole:remove']) as any] })
   @Validate()
   async remove(@Body(ALL) params: RemoveDTO) {
     const { id } = params;

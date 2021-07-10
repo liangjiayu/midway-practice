@@ -32,16 +32,14 @@ export class AdminUserController {
   @Inject('adminUserService')
   adminUserService: AdminUserService;
 
-  @Post('/create', {
-    // middleware: [apiAuth(['AdminUser:create1']) as any],
-  })
+  @Post('/create')
   @Validate()
   async create(@Body(ALL) params: CreateDTO) {
     const result = await this.adminUserService.createUser(params);
     this.ctx.helper.success(result);
   }
 
-  @Del('/remove')
+  @Del('/remove', { middleware: [apiAuth(['AdminUser:remove']) as any] })
   @Validate()
   async remove(@Body(ALL) params: RemoveDTO) {
     const { id } = params;

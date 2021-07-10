@@ -62,6 +62,7 @@ export class AdminUserService {
   async signIn(params: LoginDTO) {
     const { username, password } = params;
     const secretKey = this.ctx.app.config.jwt.secretKey;
+    const expiresIn = this.ctx.app.config.jwt.expiresIn;
 
     const user = await this.adminUserModel
       .createQueryBuilder('user')
@@ -77,7 +78,7 @@ export class AdminUserService {
       { userId: user.id, roleId: user.role.id },
       secretKey,
       {
-        expiresIn: 12 * 60 * 60 * 10,
+        expiresIn: expiresIn,
       }
     );
 
