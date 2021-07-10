@@ -3,7 +3,7 @@ import { Context } from 'egg';
 import { getRepository } from 'typeorm';
 import { AdminRole } from '../model/admin_role';
 
-export default (permissions: any[]) => {
+export default (permissions: string[]) => {
   return async (ctx: Context, next: IMidwayWebNext): Promise<void> => {
     const tokenInfo = ctx.tokenInfo;
     const role = await getRepository(AdminRole)

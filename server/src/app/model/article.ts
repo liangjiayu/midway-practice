@@ -1,7 +1,14 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@EntityModel()
+@EntityModel({
+  name: 'article',
+})
 export class Article {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,4 +21,14 @@ export class Article {
 
   @Column()
   content: string;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date;
 }

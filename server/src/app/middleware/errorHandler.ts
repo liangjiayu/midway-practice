@@ -10,7 +10,6 @@ export class ErrorHandler implements IWebMiddleware {
       try {
         await next();
       } catch (err) {
-        console.dir(err);
         // 所有的异常都在 app 上触发一个 error 事件，框架会记录一条错误日志
         ctx.app.emit('error', err, ctx);
 
@@ -31,8 +30,8 @@ export class ErrorHandler implements IWebMiddleware {
           message: err.message,
         };
         if (status === 422) {
-          ctx.body.code = VALIDATE_ERROR.code;
-          ctx.body.details = err.details;
+          ctx.body.code = err.code || VALIDATE_ERROR.code;
+          // ctx.body.details = err.details;
         }
         ctx.status = status;
       }

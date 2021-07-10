@@ -28,7 +28,7 @@ export default (appInfo: EggAppInfo) => {
   // };
 
   // 中间价
-  config.middleware = ['jwtAuth', 'errorHandler'];
+  config.middleware = ['errorHandler', 'jwtAuth'];
 
   // jwt
   config.jwt = {

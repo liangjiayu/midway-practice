@@ -5,7 +5,6 @@ import { TOKEN_ERROR } from '../utils/stateCode';
 
 export default () => {
   return async (ctx: Context, next: IMidwayWebNext): Promise<void> => {
-    // return await next();
     const whiteList = ctx.app.config.jwt.whiteList;
     if (whiteList.includes(ctx.url)) {
       return await next();
@@ -27,13 +26,13 @@ export default () => {
     try {
       const tokenInfo = jwt.verify(token, secretKey);
       /**
-       * token 通常包括对信息
+       * token 通常包括对信息，解析数据后保存在ctx中
        * {roleId:1,userId:1,iat:*****, }
        */
       ctx.tokenInfo = tokenInfo;
       await next();
     } catch (error) {
-      ctx.helper.resultError(TOKEN_ERROR.message, TOKEN_ERROR.code);
+      throw ctx.helper.error(TOKEN_ERROR.message, TOKEN_ERROR.code);
     }
   };
 };

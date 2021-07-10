@@ -42,7 +42,7 @@ export class ArticleService {
     const { pageNum, pageSize, ...filter } = query;
     const where: any = {};
 
-    // // 模糊匹配
+    // 模糊匹配
     if (filter.keyword) {
       where.keyword = Like(`${filter.keyword}%`);
     }

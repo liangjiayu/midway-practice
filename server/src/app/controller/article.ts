@@ -14,7 +14,7 @@ import {
 import { Context } from 'egg';
 
 import { CreateDTO, QueryDTO, RemoveDTO, UpdateDTO } from '../dto/article';
-import { ArticleService } from '../service/article';
+import { ArticleService } from '../service/Article';
 
 @Provide()
 @Controller('/api/article')
